@@ -1,0 +1,6 @@
+# Ignore intermediate object files
+*.o
+
+# Ignore contents of download directories
+project1/test/client1/dl/*
+project1/test/client2/dl/*
