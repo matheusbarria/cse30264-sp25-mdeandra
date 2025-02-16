@@ -11,8 +11,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-#define BACKLOG 10         // How many pending connections queue will hold
-#define BUFFER_SIZE 1024   // Buffer size for receiving data
+#define BACKLOG 69         // How many pending connections queue will hold
+#define BUFFER_SIZE 1024   
 
 /* SIGCHLD handler to reap dead child processes */
 void sigchld_handler(int s) {
@@ -49,13 +49,12 @@ int main(int argc, char *argv[]) {
     }
     
     char *port = argv[1];
-    int sockfd, new_fd;  // sockfd: listening socket, new_fd: new connection socket
+    int sockfd, new_fd; 
     struct addrinfo hints, *servinfo, *p;
     int rv;
     int yes = 1;
     char s[INET6_ADDRSTRLEN];
 
-    /* Set up the hints structure */
     memset(&hints, 0, sizeof hints);
     hints.ai_family   = AF_UNSPEC;     // IPv4 or IPv6
     hints.ai_socktype = SOCK_STREAM;   // TCP stream sockets
@@ -66,7 +65,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     
-    /* Loop through all the results and bind to the first we can */
+    // Loop through all the results and bind to the first we can 
     for (p = servinfo; p != NULL; p = p->ai_next) {
         if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1) {
             perror("server: socket");
@@ -112,7 +111,6 @@ int main(int argc, char *argv[]) {
     
     printf("Server successfully started listening on port %s\n", port);
 
-    /* Main accept() loop */
     while (1) {
         struct sockaddr_storage their_addr;
         socklen_t sin_size = sizeof their_addr;
@@ -141,7 +139,6 @@ int main(int argc, char *argv[]) {
             buffer[numbytes] = '\0';  // Ensure null termination
             printf("Received: %s\n", buffer);
             
-            /* Process the command: expecting "INVERT <word>" */
             char command[BUFFER_SIZE], word[BUFFER_SIZE];
             if (sscanf(buffer, "%s %s", command, word) == 2) {
                 if (strcmp(command, "INVERT") == 0) {
@@ -163,13 +160,11 @@ int main(int argc, char *argv[]) {
                         perror("send");
                     }
                 } else {
-                    /* Command not recognized */
                     char *errMsg = "501 NOT IMPLEMENTED\n";
                     send(new_fd, errMsg, strlen(errMsg), 0);
                     printf("Sent: 501 NOT IMPLEMENTED\n");
                 }
             } else {
-                /* Invalid command format */
                 char *errMsg = "501 NOT IMPLEMENTED\n";
                 send(new_fd, errMsg, strlen(errMsg), 0);
                 printf("Sent: 501 NOT IMPLEMENTED\n");

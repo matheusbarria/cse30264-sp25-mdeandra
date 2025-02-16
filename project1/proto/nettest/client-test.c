@@ -1,11 +1,3 @@
-/*
- * client-beej.c -- A TCP client in Beej’s style that sends an "INVERT <word>" command.
- *
- * Usage: ./client-beej <server IP> <server port> <word>
- *
- * The client connects to the server, sends "INVERT <word>", and then displays the response.
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -17,7 +9,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-#define MAXDATASIZE 100  // Maximum number of bytes we can get at once
+#define MAXDATASIZE 100  
 
 // get_in_addr: returns pointer to the address (IPv4 or IPv6)
 void *get_in_addr(struct sockaddr *sa) {

@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-// Global counter for file enumeration
 static int file_counter = 1;
 
 // Function to process a file and print its details
